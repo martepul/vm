@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Programa Vida y Ministerio</title>
+<style>
+:root{--bd:#000;--bg:#fff;--fg:#000}
+@media(prefers-color-scheme:dark){:root{--bg:#1b1b1b;--fg:#eee}}
+body{margin:0;padding:12px;background:var(--bg);color:var(--fg);font:11pt Calibri,Carlito,"Segoe UI",Arial,sans-serif}
+.bar{max-width:900px;margin:0 auto 10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.bar input,.bar button{font:inherit;padding:6px 10px}
+.wrap{max-width:900px;margin:0 auto;overflow-x:auto}
+table{width:100%;min-width:640px;border-collapse:collapse;table-layout:fixed;background:#fff;color:#000}
+td{border:1px solid var(--bd);padding:2px 4px;vertical-align:middle;word-wrap:break-word}
+tr.sp td{border:0;height:14px;background:var(--bg)}
+tbody{break-inside:avoid}
+.t{font-weight:bold;text-align:left}.l{font-weight:bold;font-size:10pt}.c{text-align:center}
+.wk{background:#2E75B6;color:#fff;font-weight:bold}
+.band{text-align:center;color:#fff;font-weight:bold}
+.b1{background:#575A5D}.b2{background:#BE8900}.b3{background:#7E0024}
+.song{color:#820000}.song2{color:#7E0024}
+.cong{font:bold 9pt Arial;text-align:center}.ttl{font:bold 12pt Arial;text-align:center}
+td.v{padding:0}td.v input,.cong input{width:100%;box-sizing:border-box;border:0;background:transparent;font:inherit;text-align:center;color:#000;padding:3px}
+.msg{padding:20px;text-align:center}
+@media print{@page{size:A4;margin:10mm}body{padding:0;background:#fff}.bar{display:none}table{min-width:0}}
+</style></head><body>
+<div class="bar"><label>Mes: <input type="month" id="m"></label><button onclick="print()">Imprimir / PDF</button></div>
+<div class="wrap" id="out"></div>
+<script>
+const CONG="Simón Bolívar 14803";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store={get(k){try{return localStorage.getItem(k)||""}catch{return ""}},set(k,v){try{localStorage.setItem(k,v)}catch{}}};
+let ym;
+const inp=k=>`<td class="v"><input data-k="${k}" value="${esc(store.get(k))}"></td>`;
+const lbl=(c,t,cls="")=>`<td colspan="${c}" class="l ${cls}">${t}</td>`;
+const band=(t,n)=>`<tr><td colspan="12" class="band b${n}">${t}</td></tr>`;
+const cols=[4.4,2.4,6.9,9.9,4.7,6.9,11.2,7,5.2,12.9,9.9,18.5];
+function week(w,i){
+  const p=`vm:${ym}:${i}:`, it=n=>w.items.find(x=>x.n===n);
+  const txt=x=>x?esc(`${x.n}. ${x.title} (${x.mins} mins.) ${x.detail}`):"";
+  const L=/\d{4}.*\d{4}/.test(w.label)?w.label.replace(/\s*[–—-]\s*/," A "):w.label;
+  let h=`<tbody><tr><td colspan="10" class="wk">SEMANA: ${esc(L)} | LECTURA SEMANAL DE LA BIBLIA: ${esc(w.reading)}</td>${lbl(1,"Presidente:")}${inp(p+"pres")}</tr>`;
+  h+=`<tr><td colspan="7" class="t">● Canción ${w.intro_song??""} y oración | Palabras de introducción (1 min.)</td><td colspan="3"></td>${lbl(1,"Oración:")}${inp(p+"or1")}</tr>`;
+  h+=band("TESOROS DE LA BIBLIA",1);
+  for(const n of [1,2,3])h+=`<tr><td colspan="10" class="t">${txt(it(n))}</td>${lbl(1,n==3?"Estudiante:":"Conductor:")}${inp(p+"n"+n)}</tr>`;
+  h+=band("SEAMOS MEJORES MAESTROS",2);
+  for(const n of [4,5,6])h+=`<tr><td colspan="9" class="t">${txt(it(n))}</td>${lbl(2,"Estudiante/Ayudante:","c")}${inp(p+"n"+n)}</tr>`;
+  h+=band("NUESTRA VIDA CRISTIANA",3);
+  h+=`<tr><td colspan="11" class="t song">● Canción ${w.living_song??""}</td><td></td></tr>`;
+  for(const n of [7,8])h+=`<tr><td colspan="9" class="t">${txt(it(n))}</td>${lbl(2,"Conductor:","c")}${inp(p+"n"+n)}</tr>`;
+  h+=`<tr><td colspan="9" class="t">● Palabras de conclusión (3 min.)</td><td colspan="2"></td><td></td></tr>`;
+  h+=`<tr><td colspan="9" class="t song2">● Canción ${w.closing_song??""} y oración</td>${lbl(2,"Oración:","c")}${inp(p+"or2")}</tr>`;
+  return h+`<tr class="sp"><td colspan="12"></td></tr></tbody>`;
+}
+async function load(){
+  ym=$("#m").value; const box=$("#out");
+  try{
+    const r=await fetch(`data/${ym}.json`,{cache:"no-cache"}); if(!r.ok)throw 0;
+    const d=await r.json();
+    box.innerHTML=`<table><colgroup>${cols.map(c=>`<col style="width:${c}%">`).join("")}</colgroup>
+    <thead><tr><td colspan="4" class="cong"><input data-k="vm:cong" value="${esc(store.get("vm:cong")||"Congregación: "+CONG)}"></td><td colspan="8" class="ttl">Programa para la reunión de entre semana</td></tr></thead>${d.weeks.map(week).join("")}</table>`;
+  }catch{box.innerHTML=`<p class="msg">Todavía no hay datos para ${ym}.<br>Se actualizan solos cada semana; también puedes forzarlo desde GitHub → Actions → «Actualizar datos».</p>`}
+}
+document.addEventListener("input",e=>{const k=e.target.dataset&&e.target.dataset.k;if(k)store.set(k,e.target.value)});
+const n=new Date();$("#m").value=`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}`;
+$("#m").addEventListener("change",load);load();
+</script></body></html>

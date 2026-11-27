@@ -1,0 +1,233 @@
+{
+ "month": "2026-12",
+ "weeks": [
+  {
+   "label": "7-13 DE DICIEMBRE",
+   "reading": "EZEQUIEL 3, 4",
+   "items": [
+    {
+     "n": 1,
+     "title": "Tenemos motivos para predicar sin miedo",
+     "mins": 10,
+     "detail": ""
+    },
+    {
+     "n": 2,
+     "title": "Busquemos perlas escondidas",
+     "mins": 10,
+     "detail": ""
+    },
+    {
+     "n": 3,
+     "title": "Lectura de la Biblia",
+     "mins": 4,
+     "detail": "Eze 3:16-27 (th lección 2)."
+    },
+    {
+     "n": 4,
+     "title": "Empecemos conversaciones",
+     "mins": 3,
+     "detail": "DE CASA EN CASA. Enseña una verdad bíblica. Si quieres, puedes utilizar una de las que aparecen en el apéndice A del folleto Una obra de amor (lmd lección 1 punto 5)."
+    },
+    {
+     "n": 5,
+     "title": "Empecemos conversaciones",
+     "mins": 4,
+     "detail": "PREDICACIÓN PÚBLICA. La persona ha oído que los testigos de Jehová son una secta (lmd lección 4 punto 4)."
+    },
+    {
+     "n": 6,
+     "title": "Hagamos discípulos",
+     "mins": 5,
+     "detail": "Habla con tu estudiante sobre la limpieza o la higiene personal (lmd lección 12 punto 4)."
+    },
+    {
+     "n": 7,
+     "title": "Necesidades de la congregación",
+     "mins": 15,
+     "detail": ""
+    },
+    {
+     "n": 8,
+     "title": "Estudio bíblico de la congregación",
+     "mins": 30,
+     "detail": "wcg cap. 20."
+    }
+   ],
+   "intro_song": 71,
+   "living_song": 161,
+   "closing_song": 7
+  },
+  {
+   "label": "14-20 DE DICIEMBRE",
+   "reading": "EZEQUIEL 5, 6",
+   "items": [
+    {
+     "n": 1,
+     "title": "Los que adoran ídolos le causan mucho dolor a Jehová",
+     "mins": 10,
+     "detail": ""
+    },
+    {
+     "n": 2,
+     "title": "Busquemos perlas escondidas",
+     "mins": 10,
+     "detail": ""
+    },
+    {
+     "n": 3,
+     "title": "Lectura de la Biblia",
+     "mins": 4,
+     "detail": "Eze 6:1-10 (th lección 5)."
+    },
+    {
+     "n": 4,
+     "title": "Empecemos conversaciones",
+     "mins": 3,
+     "detail": "PREDICACIÓN PÚBLICA. La persona quiere discutir (lmd lección 4 punto 5)."
+    },
+    {
+     "n": 5,
+     "title": "Hagamos revisitas",
+     "mins": 4,
+     "detail": "DE CASA EN CASA. Ofrécele a la persona una revista sobre el tema del que hablaron en la visita anterior (lmd lección 9 punto 4)."
+    },
+    {
+     "n": 6,
+     "title": "¿Qué dirías?",
+     "mins": 5,
+     "detail": "Análisis con el auditorio. DE CASA EN CASA. Repasa brevemente Una obra de amor lección 1 punto 4b."
+    },
+    {
+     "n": 7,
+     "title": "¿Por qué no participamos en ceremonias nacionalistas?",
+     "mins": 15,
+     "detail": "Análisis con el auditorio."
+    },
+    {
+     "n": 8,
+     "title": "Estudio bíblico de la congregación",
+     "mins": 30,
+     "detail": "wcg cap. 21."
+    }
+   ],
+   "intro_song": 49,
+   "living_song": 153,
+   "closing_song": 133
+  },
+  {
+   "label": "21-27 DE DICIEMBRE",
+   "reading": "EZEQUIEL 7, 8",
+   "items": [
+    {
+     "n": 1,
+     "title": "El día de Jehová no llegará tarde",
+     "mins": 10,
+     "detail": ""
+    },
+    {
+     "n": 2,
+     "title": "Busquemos perlas escondidas",
+     "mins": 10,
+     "detail": ""
+    },
+    {
+     "n": 3,
+     "title": "Lectura de la Biblia",
+     "mins": 4,
+     "detail": "Eze 8:7-18 (th lección 2)."
+    },
+    {
+     "n": 4,
+     "title": "Empecemos conversaciones",
+     "mins": 3,
+     "detail": "DE CASA EN CASA. (lmd lección 1 punto 4)."
+    },
+    {
+     "n": 5,
+     "title": "Hagamos revisitas",
+     "mins": 4,
+     "detail": "DE CASA EN CASA. Vuelves a visitar a una persona, pero no está en casa. Aprovechas la oportunidad para hablar con otro miembro de la familia (lmd lección 9 punto 3)."
+    },
+    {
+     "n": 6,
+     "title": "Hagamos discípulos",
+     "mins": 5,
+     "detail": "Ayuda a tu estudiante a prepararse para predicarle a un familiar (lmd lección 12 punto 3)."
+    },
+    {
+     "n": 7,
+     "title": "Imagina cómo acabará la historia",
+     "mins": 15,
+     "detail": "Análisis con el auditorio."
+    },
+    {
+     "n": 8,
+     "title": "Estudio bíblico de la congregación",
+     "mins": 30,
+     "detail": "wcg introducción a la sección 2, línea de tiempo y cap. 22."
+    }
+   ],
+   "intro_song": 128,
+   "living_song": 139,
+   "closing_song": 154
+  },
+  {
+   "label": "28 DE DICIEMBRE DE 2026 A 3 DE ENERO DE 2027",
+   "reading": "EZEQUIEL 9, 10",
+   "items": [
+    {
+     "n": 1,
+     "title": "Ayudemos a otros a sobrevivir al Armagedón",
+     "mins": 10,
+     "detail": ""
+    },
+    {
+     "n": 2,
+     "title": "Busquemos perlas escondidas",
+     "mins": 10,
+     "detail": ""
+    },
+    {
+     "n": 3,
+     "title": "Lectura de la Biblia",
+     "mins": 4,
+     "detail": "Eze 9:1-11 (th lección 5)."
+    },
+    {
+     "n": 4,
+     "title": "Empecemos conversaciones",
+     "mins": 3,
+     "detail": "DE CASA EN CASA. Presenta y analiza un video del kit de enseñanza, pero no lo pongas (lmd lección 3 punto 5)."
+    },
+    {
+     "n": 5,
+     "title": "Hagamos revisitas",
+     "mins": 4,
+     "detail": "DE CASA EN CASA. La persona tiene una pregunta. Para responderle, presenta y analiza un video, pero no lo pongas (lmd lección 9 punto 5)."
+    },
+    {
+     "n": 6,
+     "title": "Expliquemos nuestras creencias",
+     "mins": 5,
+     "detail": "Escenificación. Para ayudar a un familiar a entender por qué crees en la creación, presenta y analiza un video de la serie “¿Lo diseñó alguien?”, pero no lo pongas (th lección 2)."
+    },
+    {
+     "n": 7,
+     "title": "“Te salvarás a ti mismo y también a los que te escuchan”",
+     "mins": 15,
+     "detail": "Análisis con el auditorio."
+    },
+    {
+     "n": 8,
+     "title": "Estudio bíblico de la congregación",
+     "mins": 30,
+     "detail": "wcg cap. 23."
+    }
+   ],
+   "intro_song": 119,
+   "living_song": 60,
+   "closing_song": 135
+  }
+ ]
+}
