@@ -53,7 +53,10 @@
      "mins": 30,
      "detail": "gwt libro 26 párrs. 1-6 y recuadro 26-A."
     }
-   ]
+   ],
+   "intro_song": 83,
+   "living_song": 2,
+   "closing_song": 164
   },
   {
    "label": "11-17 DE ENERO",
@@ -107,7 +110,10 @@
      "mins": 30,
      "detail": "gwt libro 26 párrs. 7-11 y recuadros 26-B y 26-C."
     }
-   ]
+   ],
+   "intro_song": 39,
+   "living_song": 56,
+   "closing_song": 98
   },
   {
    "label": "18-24 DE ENERO",
@@ -161,7 +167,10 @@
      "mins": 30,
      "detail": "gwt libro 26 párrs. 12-24 y recuadro 26-D."
     }
-   ]
+   ],
+   "intro_song": 130,
+   "living_song": 58,
+   "closing_song": 159
   },
   {
    "label": "25-31 DE ENERO",
@@ -221,7 +230,10 @@
      "mins": 30,
      "detail": "gwt libro 26 recuadro “Sácale provecho al libro de Ezequiel”."
     }
-   ]
+   ],
+   "intro_song": 30,
+   "living_song": 3,
+   "closing_song": 94
   }
  ]
 }
