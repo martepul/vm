@@ -29,13 +29,17 @@ def parse(url):
         elif e.name == "h2":
             if not t.upper().startswith(SECC) and not w["reading"]: w["reading"] = t.upper()
         elif e.name == "h3":
-            cur = None; c = re.search(r"Canción (\d+)", t)
-            if "introducción" in t and c: w["intro_song"] = int(c[1])
-            elif "conclusión" in t and c: w["closing_song"] = int(c[1])
-            elif c and re.match(r"Canción \d+$", t): w["living_song"] = int(c[1])
-            elif m := re.match(r"(\d+)\.\s*(.*)$", t): cur = {"n": int(m[1]), "title": m[2], "mins": None, "detail": ""}; w["items"].append(cur)
+            cur = None
+            if m := re.match(r"(\d+)\.\s*(.*)$", t):
+                cur = {"n": int(m[1]), "title": m[2], "mins": None, "detail": ""}; w["items"].append(cur)
         elif cur and cur["mins"] is None and (m := re.match(r"\((\d+) mins?\.\)\s*(.*)$", t)):
             cur["mins"], cur["detail"] = int(m[1]), m[2]
+    txt = clean(art.get_text(" "))
+    for k, marca in (("intro_song", ""), ("living_song", "NUESTRA VIDA CRISTIANA"), ("closing_song", "Palabras de conclusión")):
+        i = txt.find(marca) if marca else 0
+        m = re.search(r"Canci[oó]n\s*(\d+)", txt[i:]) if i >= 0 else None
+        if m: w[k] = int(m[1])
+        else: print(f"  AVISO: no encontré {k}")
     return w
 def month(ym):
     y, m = map(int, ym.split("-")); weeks = []
