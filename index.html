@@ -13,15 +13,17 @@ table{width:100%;min-width:640px;border-collapse:collapse;table-layout:fixed;bac
 td{border:1px solid var(--bd);padding:2px 4px;vertical-align:middle;word-wrap:break-word}
 tr.sp td{border:0;height:14px;background:var(--bg)}
 tbody{break-inside:avoid}
-.t{font-weight:bold;text-align:left}.l{font-weight:bold;font-size:10pt}.c{text-align:center}
+.t{font-weight:bold;text-align:left}.l{font-weight:bold;font-size:10pt;white-space:nowrap}.c{text-align:center}
 .wk{background:#2E75B6;color:#fff;font-weight:bold}
 .band{text-align:center;color:#fff;font-weight:bold}
 .b1{background:#575A5D}.b2{background:#BE8900}.b3{background:#7E0024}
 .song{color:#820000}.song2{color:#7E0024}
 .cong{font:bold 9pt Arial;text-align:center}.ttl{font:bold 12pt Arial;text-align:center}
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.cong div{outline:0;padding:3px;min-height:1em}
 td.v{padding:0}td.v input,.cong input{width:100%;box-sizing:border-box;border:0;background:transparent;font:inherit;text-align:center;color:#000;padding:3px}
 .msg{padding:20px;text-align:center}
-@media print{@page{size:A4;margin:10mm}body{padding:0;background:#fff}.bar{display:none}table{min-width:0}}
+@media print{@page{size:A4;margin:10mm}body{padding:0;background:#fff;font-size:10pt}.bar{display:none}table{min-width:0}td{padding:1px 3px}.l{font-size:9pt}tr.sp td{height:8px}.wrap{overflow:visible}}
 </style></head><body>
 <div class="bar"><label>Mes: <input type="month" id="m"></label><button onclick="print()">Imprimir / PDF</button></div>
 <div class="wrap" id="out"></div>
@@ -34,7 +36,7 @@ let ym;
 const inp=k=>`<td class="v"><input data-k="${k}" value="${esc(store.get(k))}"></td>`;
 const lbl=(c,t,cls="")=>`<td colspan="${c}" class="l ${cls}">${t}</td>`;
 const band=(t,n)=>`<tr><td colspan="12" class="band b${n}">${t}</td></tr>`;
-const cols=[4.4,2.4,6.9,9.9,4.7,6.9,11.2,7,5.2,12.9,9.9,18.5];
+const cols=[4.4,2.4,6.9,9.9,4.7,6.9,9.6,7,5.2,12.9,11.5,18.5];
 function week(w,i){
   const p=`vm:${ym}:${i}:`, it=n=>w.items.find(x=>x.n===n);
   const txt=x=>x?esc(`${x.n}. ${x.title} (${x.mins} mins.) ${x.detail}`):"";
@@ -58,10 +60,10 @@ async function load(){
     const r=await fetch(`data/${ym}.json`,{cache:"no-cache"}); if(!r.ok)throw 0;
     const d=await r.json();
     box.innerHTML=`<table><colgroup>${cols.map(c=>`<col style="width:${c}%">`).join("")}</colgroup>
-    <thead><tr><td colspan="4" class="cong"><input data-k="vm:cong" value="${esc(store.get("vm:cong")||"Congregación: "+CONG)}"></td><td colspan="8" class="ttl">Programa para la reunión de entre semana</td></tr></thead>${d.weeks.map(week).join("")}</table>`;
+    <thead><tr><td colspan="4" class="cong"><div contenteditable data-k="vm:cong">${esc(store.get("vm:cong")||"Congregación: "+CONG)}</div></td><td colspan="8" class="ttl">Programa para la reunión de entre semana</td></tr></thead>${d.weeks.map(week).join("")}</table>`;
   }catch{box.innerHTML=`<p class="msg">Todavía no hay datos para ${ym}.<br>Se actualizan solos cada semana; también puedes forzarlo desde GitHub → Actions → «Actualizar datos».</p>`}
 }
-document.addEventListener("input",e=>{const k=e.target.dataset&&e.target.dataset.k;if(k)store.set(k,e.target.value)});
+document.addEventListener("input",e=>{const k=e.target.dataset&&e.target.dataset.k;if(k)store.set(k,e.target.isContentEditable?e.target.innerText:e.target.value)});
 const n=new Date();$("#m").value=`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}`;
 $("#m").addEventListener("change",load);load();
 </script></body></html>
