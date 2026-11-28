@@ -25,7 +25,7 @@ td.v{padding:0}td.v input,.cong input{width:100%;box-sizing:border-box;border:0;
 .msg{padding:20px;text-align:center}
 @media print{@page{size:A4;margin:10mm}body{padding:0;background:#fff;font-size:10pt}.bar{display:none}table{min-width:0}td{padding:1px 3px}.l{font-size:9pt}tr.sp td{height:8px}.wrap{overflow:visible}}
 </style></head><body>
-<div class="bar"><label>Mes: <input type="month" id="m"></label><button onclick="print()">Imprimir / PDF</button></div>
+<div class="bar"><label>Mes: <input type="month" id="m"></label><button id="g" onclick="gen()">Generar mes</button><button onclick="print()">Imprimir / PDF</button><span id="st"></span></div>
 <div class="wrap" id="out"></div>
 <script>
 const CONG="Simón Bolívar 14803";
@@ -54,14 +54,45 @@ function week(w,i){
   h+=`<tr><td colspan="9" class="t song2">● Canción ${w.closing_song??""} y oración</td>${lbl(2,"Oración:","c")}${inp(p+"or2")}</tr>`;
   return h+`<tr class="sp"><td colspan="12"></td></tr></tbody>`;
 }
+const REPO="martepul/vm",WF="actualizar.yml",BR="main",API="https://api.github.com/repos/"+REPO;
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const gh=()=>({Accept:"application/vnd.github+json",Authorization:"Bearer "+store.get("vm:token")});
+function render(d){
+  $("#out").innerHTML=`<table><colgroup>${cols.map(c=>`<col style="width:${c}%">`).join("")}</colgroup>
+  <thead><tr><td colspan="4" class="cong"><div contenteditable data-k="vm:cong">${esc(store.get("vm:cong")||"Congregación: "+CONG)}</div></td><td colspan="8" class="ttl">Programa para la reunión de entre semana</td></tr></thead>${d.weeks.map(week).join("")}</table>`;
+}
 async function load(){
-  ym=$("#m").value; const box=$("#out");
+  ym=$("#m").value; $("#st").textContent="";
+  try{const r=await fetch(`data/${ym}.json`,{cache:"no-cache"}); if(!r.ok)throw 0; render(await r.json());}
+  catch{$("#out").innerHTML=`<p class="msg">Todavía no hay datos para ${ym}.<br>Pulsa «Generar mes» para pedirlos a wol.jw.org.</p>`}
+}
+async function gen(){
+  const st=$("#st"),btn=$("#g"),mes=$("#m").value;
+  if(!store.get("vm:token")){
+    const t=prompt("Pega tu token de GitHub (permiso Actions: lectura y escritura sobre "+REPO+"). Solo se guarda en este navegador.");
+    if(!t)return; store.set("vm:token",t.trim());
+  }
+  btn.disabled=true; st.textContent="Pidiendo "+mes+" a GitHub…";
   try{
-    const r=await fetch(`data/${ym}.json`,{cache:"no-cache"}); if(!r.ok)throw 0;
-    const d=await r.json();
-    box.innerHTML=`<table><colgroup>${cols.map(c=>`<col style="width:${c}%">`).join("")}</colgroup>
-    <thead><tr><td colspan="4" class="cong"><div contenteditable data-k="vm:cong">${esc(store.get("vm:cong")||"Congregación: "+CONG)}</div></td><td colspan="8" class="ttl">Programa para la reunión de entre semana</td></tr></thead>${d.weeks.map(week).join("")}</table>`;
-  }catch{box.innerHTML=`<p class="msg">Todavía no hay datos para ${ym}.<br>Se actualizan solos cada semana; también puedes forzarlo desde GitHub → Actions → «Actualizar datos».</p>`}
+    const t0=Date.now();
+    const r=await fetch(`${API}/actions/workflows/${WF}/dispatches`,{method:"POST",headers:gh(),body:JSON.stringify({ref:BR,inputs:{meses:mes}})});
+    if([401,403,404].includes(r.status)){store.set("vm:token","");throw new Error("GitHub rechazó el token; pulsa de nuevo y pega uno válido.")}
+    if(r.status!==204)throw new Error("GitHub respondió "+r.status);
+    let ok=null;
+    for(let i=0;i<40&&ok===null;i++){
+      await wait(8000); st.textContent="Descargando datos de WOL… ("+(i+1)*8+" s)";
+      const q=await (await fetch(`${API}/actions/workflows/${WF}/runs?event=workflow_dispatch&per_page=5`,{headers:gh()})).json();
+      const run=(q.workflow_runs||[]).find(x=>Date.parse(x.created_at)>=t0-15000);
+      if(run&&run.status==="completed")ok=run.conclusion==="success";
+    }
+    if(ok===null)throw new Error("Tarda demasiado; revisa la pestaña Actions de GitHub.");
+    if(!ok)throw new Error("La tarea falló; revisa su registro en Actions.");
+    const f=await fetch(`${API}/contents/data/${mes}.json?ref=${BR}`,{headers:{...gh(),Accept:"application/vnd.github.raw+json"},cache:"no-store"});
+    if(!f.ok)throw new Error("WOL todavía no tiene publicado ese mes.");
+    if($("#m").value===mes){ym=mes;render(await f.json());}
+    st.textContent="Listo: "+mes;
+  }catch(e){st.textContent=e.message}
+  btn.disabled=false;
 }
 document.addEventListener("input",e=>{const k=e.target.dataset&&e.target.dataset.k;if(k)store.set(k,e.target.isContentEditable?e.target.innerText:e.target.value)});
 const n=new Date();$("#m").value=`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}`;
